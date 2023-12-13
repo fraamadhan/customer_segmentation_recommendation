@@ -3,7 +3,7 @@ import pandas as pd
 import joblib
 
 def load_model():
-    model = joblib.load('..\model\model1.joblib')
+    model = joblib.load('.\model\model1.joblib')
     return model
 
 def create_new_data(age, item_purchase, gender, category, season):
@@ -27,7 +27,7 @@ def recommendation_item(age, gender, category, season):
 
     new_data = create_new_data(age_value, item_purchase_value, gender_value, category_value, season_value)
     
-    df_pred = pd.read_csv('..\data\output_file.csv')
+    df_pred = pd.read_csv('.\data\output_file.csv')
 
     model = load_model()
 

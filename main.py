@@ -59,7 +59,9 @@ sl.subheader("Selamat datang di Toko Cicadas Jaya Sandang")
 sl.caption("Kami menyediakan berbagai jenis kebutuhan Sandang, seperti pakaian, alas kaki, hingga aksesoris")
 
 name = sl.text_input("Nama kamu?", placeholder="Nama")
-age = sl.number_input("Umur kamu?", placeholder=0)
+age = sl.text_input("Umur kamu?", 0)
+
+age = int(str(age))
 gender = sl.radio(
     "Jenis Kelamin",
     ["Pria", "Wanita"],

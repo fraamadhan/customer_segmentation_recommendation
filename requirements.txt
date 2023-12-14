@@ -2,5 +2,3 @@ streamlit
 pandas
 joblib
 kmodes
-sklearn
-test_season

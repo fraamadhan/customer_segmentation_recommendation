@@ -37,7 +37,7 @@ def normalize_data(df):
     df_normalized[['Review Rating', 'Frequency Ranking']] = scaler.fit_transform(df_normalized[['Review Rating', 'Frequency Ranking']])
     return df_normalized
   
-#Normalize the data
+#Normalisasi data
 spring_data = normalize_data(spring_data)
 summer_data = normalize_data(summer_data)
 fall_data = normalize_data(fall_data)
@@ -162,7 +162,7 @@ def get_top_items_by_season_cluster(df_season_clustered, season, cluster_column=
     max_review_idx = df_season_clustered.groupby([cluster_column, 'Season'])['Review Rating'].idxmax()
     top_items_by_cluster_season = df_season_clustered.loc[max_review_idx, ['cluster', 'Season', 'Item Purchased', 'Review Rating', 'Age']]
     
-    # Group by cluster and get top N items for each cluster
+    # Mengelompokkan berdasarkan klaster dan menampilkan sejumlah N
     top_items_by_season_cluster = (
         top_items_by_cluster_season[top_items_by_cluster_season['Season'] == season]
         .groupby(cluster_column)

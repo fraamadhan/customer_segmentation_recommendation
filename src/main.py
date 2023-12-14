@@ -19,7 +19,6 @@ def create_new_data(age, item_purchase, gender, category, season):
 
 def recommendation_item(age, gender, category, season):
 
-    # Example usage:
     age_value = age
     item_purchase_value = ''
     gender_value = gender
@@ -52,7 +51,7 @@ def recommendation_item(age, gender, category, season):
     top_items = cluster_data.sort_values(by='Review Rating', ascending=False).drop_duplicates('Item Purchased').reset_index(drop=True)
     top_items.index = top_items.index + 1
 
-    # Display the recommended items
+    # Menampilkan rekomendasi item
     sl.markdown("## Recommended Items:")
     sl.table(top_items[['Item Purchased', 'Category', 'Review Rating', 'Season', 'Age']])
     

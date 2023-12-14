@@ -56,10 +56,10 @@ def recommendation_item(age, gender, category, season):
     sl.markdown("## Recommended Items:")
     sl.table(top_items[['Item Purchased', 'Category', 'Review Rating', 'Season', 'Age']])
     
-spring_clustered_data = pd.read_csv('../data/spring.csv')
-summer_clustered_data = pd.read_csv('../data/summer.csv')
-fall_clustered_data = pd.read_csv('../data/fall.csv')
-winter_clustered_data = pd.read_csv('../data/winter.csv')
+spring_clustered_data = pd.read_csv('./data/spring.csv')
+summer_clustered_data = pd.read_csv('./data/summer.csv')
+fall_clustered_data = pd.read_csv('./data/fall.csv')
+winter_clustered_data = pd.read_csv('./data/winter.csv')
 
 spring_clustered_data = denormalize_review_rating(spring_clustered_data)
 summer_clustered_data = denormalize_review_rating(summer_clustered_data)

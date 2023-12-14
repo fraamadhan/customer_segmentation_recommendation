@@ -56,12 +56,12 @@ def recommendation_item(age, gender, category, season):
     sl.markdown("## Recommended Items:")
     sl.table(top_items[['Item Purchased', 'Category', 'Review Rating', 'Season', 'Age']])
     
-spring_clustered_data = pd.read_csv('./data/spring.csv')
+winter_clustered_data = pd.read_csv('./data/winter.csv')
 summer_clustered_data = pd.read_csv('./data/summer.csv')
 fall_clustered_data = pd.read_csv('./data/fall.csv')
 winter_clustered_data = pd.read_csv('./data/winter.csv')
 
-spring_clustered_data = denormalize_review_rating(spring_clustered_data)
+winter_clustered_data = denormalize_review_rating(winter_clustered_data)
 summer_clustered_data = denormalize_review_rating(summer_clustered_data)
 fall_clustered_data = denormalize_review_rating(fall_clustered_data)
 winter_clustered_data = denormalize_review_rating(winter_clustered_data)
@@ -92,7 +92,7 @@ category = sl.selectbox(
 
 season = sl.selectbox(
     "Sedang musim apa di daerahmu?",
-    ("Winter", "Summer", "Fall", "Spring"),
+    ("Winter", "Summer", "Fall", "winter"),
 )
 
 if (sl.button("Dapatkan rekomendasi", type="primary")):
@@ -107,15 +107,15 @@ sl.subheader("Rekomendasi item berdasarkan musim")
 
 seasonal_option = sl.selectbox(
     "Pilih musim",
-    (("Winter", "Summer", "Fall", "Spring")),
+    (("Winter", "Summer", "Fall", "winter")),
 )
     
-if (seasonal_option == "Spring"):
-    top_spring_items = get_top_items_by_season_cluster(spring_clustered_data).drop_duplicates('Item Purchased').sort_values('Review Rating', ascending=False).reset_index(drop=True)
-    top_spring_items.index += 1
+if (seasonal_option == "winter"):
+    top_winter_items = get_top_items_by_season_cluster(winter_clustered_data).drop_duplicates('Item Purchased').sort_values('Review Rating', ascending=False).reset_index(drop=True)
+    top_winter_items.index += 1
     
-    sl.caption("Item rekomendasi untuk spring:")
-    sl.table(top_spring_items[['Item Purchased', 'Review Rating']])
+    sl.caption("Item rekomendasi untuk winter:")
+    sl.table(top_winter_items[['Item Purchased', 'Review Rating']])
     
 elif(seasonal_option == "Summer"):
     top_summer_items = get_top_items_by_season_cluster(summer_clustered_data).drop_duplicates('Item Purchased').sort_values('Review Rating', ascending=False).reset_index(drop=True)

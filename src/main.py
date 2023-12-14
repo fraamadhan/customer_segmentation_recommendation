@@ -1,6 +1,7 @@
 import streamlit as sl
 import pandas as pd
 import joblib
+from test_season import denormalize_review_rating, get_top_items_by_season_cluster
 
 def load_model():
     model = joblib.load('./model/model1.joblib')
@@ -48,11 +49,22 @@ def recommendation_item(age, gender, category, season):
                                 (cluster_data['Season'] == new_data['Season'].values[0])]
 
     # Mendapatkan top item berdasarkan review rating, item bersifat unik
-    top_items = cluster_data.sort_values(by='Review Rating', ascending=False).drop_duplicates('Item Purchased')
+    top_items = cluster_data.sort_values(by='Review Rating', ascending=False).drop_duplicates('Item Purchased').reset_index(drop=True)
+    top_items.index = top_items.index + 1
 
     # Display the recommended items
     sl.markdown("## Recommended Items:")
     sl.table(top_items[['Item Purchased', 'Category', 'Review Rating', 'Season', 'Age']])
+    
+spring_clustered_data = pd.read_csv('./data/spring.csv')
+summer_clustered_data = pd.read_csv('./data/summer.csv')
+fall_clustered_data = pd.read_csv('./data/fall.csv')
+winter_clustered_data = pd.read_csv('./data/winter.csv')
+
+spring_clustered_data = denormalize_review_rating(spring_clustered_data)
+summer_clustered_data = denormalize_review_rating(summer_clustered_data)
+fall_clustered_data = denormalize_review_rating(fall_clustered_data)
+winter_clustered_data = denormalize_review_rating(winter_clustered_data)
 
 sl.title("Cicadas Jaya Sandang")
 sl.subheader("Selamat datang di Toko Cicadas Jaya Sandang")
@@ -89,4 +101,40 @@ if (sl.button("Dapatkan rekomendasi", type="primary")):
     sl.caption(recommendationCaption)
     recommendation_item(age, gender, category, season)
     
+sl.markdown("---")
+    
+sl.subheader("Rekomendasi item berdasarkan musim")
+
+seasonal_option = sl.selectbox(
+    "Pilih musim",
+    (("Winter", "Summer", "Fall", "Spring")),
+)
+    
+if (seasonal_option == "Spring"):
+    top_spring_items = get_top_items_by_season_cluster(spring_clustered_data).drop_duplicates('Item Purchased').sort_values('Review Rating', ascending=False).reset_index(drop=True)
+    top_spring_items.index += 1
+    
+    sl.caption("Item rekomendasi untuk spring:")
+    sl.table(top_spring_items[['Item Purchased', 'Review Rating']])
+    
+elif(seasonal_option == "Summer"):
+    top_summer_items = get_top_items_by_season_cluster(summer_clustered_data).drop_duplicates('Item Purchased').sort_values('Review Rating', ascending=False).reset_index(drop=True)
+    top_summer_items.index += 1
+    
+    sl.caption("Item rekomendasi untuk summer:")
+    sl.table(top_summer_items[['Item Purchased', 'Review Rating']])
+
+elif(seasonal_option == "Fall"):
+    top_fall_items = get_top_items_by_season_cluster(fall_clustered_data).drop_duplicates('Item Purchased').sort_values('Review Rating', ascending=False).reset_index(drop=True)
+    top_fall_items.index +=1
+    
+    sl.caption("Item rekomendasi untuk fall:")
+    sl.table(top_fall_items[['Item Purchased', 'Review Rating']])
+
+else:
+    top_winter_items = get_top_items_by_season_cluster(winter_clustered_data).drop_duplicates('Item Purchased').sort_values('Review Rating', ascending=False).reset_index(drop=True)
+    top_winter_items.index += 1
+    
+    sl.caption("Item rekomendasi untuk winter:")
+    sl.table(top_winter_items[['Item Purchased', 'Review Rating']])
 

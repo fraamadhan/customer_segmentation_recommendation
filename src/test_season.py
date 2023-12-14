@@ -22,10 +22,10 @@ def get_top_items_by_season_cluster(df_season_clustered, cluster_column='cluster
 
     return top_items_by_season_cluster
 
-spring_clustered_data = pd.read_csv('../data/spring.csv')
-summer_clustered_data = pd.read_csv('../data/summer.csv')
-fall_clustered_data = pd.read_csv('../data/fall.csv')
-winter_clustered_data = pd.read_csv('../data/winter.csv')
+spring_clustered_data = pd.read_csv('./data/spring.csv')
+summer_clustered_data = pd.read_csv('./data/summer.csv')
+fall_clustered_data = pd.read_csv('./data/fall.csv')
+winter_clustered_data = pd.read_csv('./data/winter.csv')
 
 
 spring_clustered_data = denormalize_review_rating(spring_clustered_data)

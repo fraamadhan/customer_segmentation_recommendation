@@ -3,10 +3,12 @@ import pandas as pd
 import joblib
 from test_season import denormalize_review_rating, get_top_items_by_season_cluster
 
+# Load model yang sudah ditraining
 def load_model():
     model = joblib.load('./model/model1.joblib')
     return model
 
+# Pembuatan data baru
 def create_new_data(age, item_purchase, gender, category, season):
     new_data = pd.DataFrame({
         'Age': [age],
@@ -60,11 +62,13 @@ summer_clustered_data = pd.read_csv('./data/summer.csv')
 fall_clustered_data = pd.read_csv('./data/fall.csv')
 winter_clustered_data = pd.read_csv('./data/winter.csv')
 
+# Mengembalikan value review rating ke satuan 1 - 5
 spring_clustered_data = denormalize_review_rating(spring_clustered_data)
 summer_clustered_data = denormalize_review_rating(summer_clustered_data)
 fall_clustered_data = denormalize_review_rating(fall_clustered_data)
 winter_clustered_data = denormalize_review_rating(winter_clustered_data)
 
+# Pembuatan website menggunakan streamlit
 sl.title("Cicadas Jaya Sandang")
 sl.subheader("Selamat datang di Toko Cicadas Jaya Sandang")
 sl.caption("Kami menyediakan berbagai jenis kebutuhan Sandang, seperti pakaian, alas kaki, hingga aksesoris")
@@ -108,6 +112,8 @@ seasonal_option = sl.selectbox(
     "Pilih musim",
     (("Winter", "Summer", "Fall", "Spring")),
 )
+
+#Menampilkan item rekomendasi berdasarkan pilihan musim
     
 if (seasonal_option == "Spring"):
     top_spring_items = get_top_items_by_season_cluster(spring_clustered_data).drop_duplicates('Item Purchased').sort_values('Review Rating', ascending=False).reset_index(drop=True)

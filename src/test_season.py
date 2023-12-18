@@ -5,6 +5,7 @@ def denormalize_review_rating(df, original_min=1, original_max=5):
     df_denormalized['Review Rating'] = round(df_denormalized['Review Rating'] * (original_max - original_min) + original_min, 2)
     return df_denormalized
 
+# mendapatkan rekomendasi item berdasarkan rating dan frekuensi pembelian di setiap musim
 def get_top_items_by_season_cluster(df_season_clustered, cluster_column='cluster', top_n=10):
     max_review_freq_idx = df_season_clustered.groupby([cluster_column, 'Season'])[['Review Rating', 'Frequency Ranking']].idxmax()
     top_items_by_cluster_season = df_season_clustered.loc[max_review_freq_idx[['Review Rating', 'Frequency Ranking']].values.flatten(), ['cluster', 'Season', 'Item Purchased', 'Review Rating', 'Frequency Ranking']]

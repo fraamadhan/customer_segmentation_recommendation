@@ -13,7 +13,7 @@ summer_data = df[df["Season"] == "Summer"].copy()
 fall_data = df[df["Season"] == "Fall"].copy()
 winter_data = df[df["Season"] == "Winter"].copy()
 
-# Mapping the frequency of purchases to numeric
+# Mapping frekuensi pembelian ke dalam numerik
 
 frequency_ranking = {
     'Weekly': 7,
@@ -24,6 +24,8 @@ frequency_ranking = {
     'Annually': 3,
     'Every 3 Months': 2
 }
+
+# Menambahkan kolom baru untuk frekuensi pembelian dalam numerikal
 
 spring_data["Frequency Ranking"] = df["Frequency of Purchases"].map(frequency_ranking)
 summer_data["Frequency Ranking"] = df["Frequency of Purchases"].map(frequency_ranking)
@@ -98,8 +100,7 @@ summer_model, summer_clustered_data = train_seasonal_model(summer_pred, list(ran
 fallen_model, fall_clustered_data = train_seasonal_model(fall_pred, list(range(0, 3)), "fall")
 winter_model, winter_clustered_data = train_seasonal_model(winter_pred, list(range(0, 3)), "winter")
 
-
-
+# Preprocessing drop column untuk pemodelan perekomendasian 
 drop_columns = [df.columns[0]] + list(df.columns[5:9]) + list(df.columns[11:18])
 
 df = df.drop(columns=drop_columns)
@@ -113,6 +114,7 @@ for k in tqdm(range(2, 10)):
   score.append(model.cost_)
 plt.plot(range(2, 10), score)
 
+#Pelatihan model untuk fitur rekomendasi berdasarkan kriteria pelanggan
 model = KPrototypes(n_clusters=4)
 member = model.fit_predict(df, categorical=categorical_columns)
 
@@ -157,6 +159,8 @@ fall_centroids = centroids_model(fallen_model)
 winter_centroids = centroids_model(winter_model)
 
 print(fall_centroids)
+
+# mendapatkan rekomendasi item berdasarkan rating di setiap musim
 
 def get_top_items_by_season_cluster(df_season_clustered, season, cluster_column='cluster', top_n=10):
     max_review_idx = df_season_clustered.groupby([cluster_column, 'Season'])['Review Rating'].idxmax()
